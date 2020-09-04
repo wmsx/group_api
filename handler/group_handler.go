@@ -25,10 +25,12 @@ func (h *GroupHandler) GetAllDiscussGroupList(ctx *gin.Context) {
 	discussGroupResults := make([]*DiscussGroupResult, 0)
 
 	if mengerId, err = strconv.ParseInt(ctx.Param("id"), 10, 64); err != nil {
+		log.Error("获取用户id失败 err: ", err)
 		app.Response(discussGroupResults)
 		return
 	}
-	if mengerId  <= mengerId {
+	if mengerId <= 0 {
+		log.Error("获取用户id <= 0, mengerId: ", mengerId)
 		app.Response(discussGroupResults)
 		return
 	}
