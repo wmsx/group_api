@@ -4,6 +4,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/micro/go-micro/v2/client"
 	"github.com/wmsx/group_api/handler"
+	mygin "github.com/wmsx/pkg/gin"
 )
 
 /**
@@ -17,7 +18,7 @@ func InitRouter(c client.Client) *gin.Engine {
 	groupHandler := handler.NewGroupHandler(c)
 	groupRouter := r.Group("/group")
 
-	groupRouter.POST("/discuss/list", groupHandler.GetAllDiscussGroupList)
+	groupRouter.POST("/discuss/list", mygin.AuthWrapper(groupHandler.GetAllDiscussGroupList))
 
 	return r
 }
