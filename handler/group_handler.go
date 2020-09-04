@@ -14,7 +14,6 @@ type GroupHandler struct {
 }
 
 func (h *GroupHandler) GetAllDiscussGroupList(ctx *gin.Context) {
-
 	var (
 		mengerId                   int64
 		getAllDiscussGroupRequest  *groupProto.GetAllDiscussGroupRequest
@@ -24,12 +23,13 @@ func (h *GroupHandler) GetAllDiscussGroupList(ctx *gin.Context) {
 	app := mygin.Gin{C: ctx}
 	discussGroupResults := make([]*DiscussGroupResult, 0)
 
-	if mengerId, err = strconv.ParseInt(ctx.Param("id"), 10, 64); err != nil {
+	mengerId, err = strconv.ParseInt(ctx.GetHeader("uid"), 10, 64)
+	if err != nil {
 		log.Error("获取用户id失败 err: ", err)
 		app.Response(discussGroupResults)
 		return
 	}
-	if mengerId <= 0 {
+	if mengerId  <= 0 {
 		log.Error("获取用户id <= 0, mengerId: ", mengerId)
 		app.Response(discussGroupResults)
 		return
